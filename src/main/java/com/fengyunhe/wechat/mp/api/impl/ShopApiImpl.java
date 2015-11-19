@@ -1,0 +1,17 @@
+package com.fengyunhe.wechat.mp.api.impl;
+
+import com.fengyunhe.wechat.mp.WeChatApp;
+import com.fengyunhe.wechat.mp.api.ShopApi;
+
+/**
+ * 微信小店API
+ * Created by yangyan on 2015/6/1.
+ */
+public class ShopApiImpl implements ShopApi {
+
+    private final WeChatApp app;
+
+    public ShopApiImpl(WeChatApp app) {
+        this.app = app;
+    }
+}
