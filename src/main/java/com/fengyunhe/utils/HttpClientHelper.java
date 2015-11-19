@@ -377,6 +377,26 @@ public class HttpClientHelper {
         return null;
     }
 
+    /**
+     * 上传单个文件，并附带其他的参数
+     * @param url
+     * @param params
+     * @param name
+     * @param file
+     * @return
+     */
+    public String upload(String url, Map<String,String> params,String name, File file) {
+        HashMap<String, File> stringFileHashMap = new HashMap<String, File>();
+        stringFileHashMap.put(name == null ? file.getName() : name, file);
+        try {
+            HttpResponse httpResponse = this.post(url, params, null, null, null, stringFileHashMap);
+            return EntityUtils.toString(httpResponse.getEntity(), Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     /**
      * 上传文件

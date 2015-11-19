@@ -21,19 +21,18 @@ import java.util.Map;
 /**
  *
  */
-public class JsApiImpl implements JsApi {
+public class JsApiImpl extends ServerApiImpl implements JsApi {
     /**
      * jsapi_ticket是公众号用于调用微信JS接口的临时票据。
      * 正常情况下，jsapi_ticket的有效期为7200秒，通过access_token来获取。
      * 由于获取jsapi_ticket的api调用次数非常有限，频繁刷新jsapi_ticket会导致api调用受限，影响自身业务，开发者必须在自己的服务全局缓存jsapi_ticket 。
      */
     private static final String JSAPI_TICKET_GET_URI = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
-    private final WeChatApp app;
     Log log = LogFactory.getLog(UserApiImpl.class);
     private ServerJsApiTicket serverJsApiTicket;
 
     public JsApiImpl(WeChatApp app) {
-        this.app = app;
+        super(app);
     }
 
     private static String byteToHex(final byte[] hash) {

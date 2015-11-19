@@ -25,6 +25,10 @@ public enum EventType {
      */
     MASSSENDJOBFINISH,
 
+    /**
+     * 模板消息发送通知
+     */
+    TEMPLATESENDJOBFINISH,
 
     //以下是自定义菜单的事件
     /**

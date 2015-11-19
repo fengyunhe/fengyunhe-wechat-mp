@@ -1,5 +1,6 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
+import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.MenuApi;
 import com.fengyunhe.wechat.mp.api.bean.Menu;
 import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
@@ -15,7 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class MenuApiImpl implements MenuApi {
+public class MenuApiImpl extends ServerApiImpl implements MenuApi {
+
+
+    public MenuApiImpl(WeChatApp app) {
+        super(app);
+    }
 
     /**
      * 创建菜单

@@ -1,5 +1,6 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
+import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.GroupApi;
 import com.fengyunhe.wechat.mp.api.bean.Group;
 import com.fengyunhe.wechat.mp.api.bean.Groups;
@@ -10,13 +11,18 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GroupApiImpl implements GroupApi {
+public class GroupApiImpl extends ServerApiImpl implements GroupApi {
 
     private static final String GROUP_CREATE_URI = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token=";
     private static final String GROUP_GET_URI = "https://api.weixin.qq.com/cgi-bin/groups/get?access_token=";
     private static final String GROUP_GETID_URI = "https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=";
     private static final String GROUP_UPDATE_URI = "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=";
     private static final String GROUP_MEMBERS_UPDATE_URI = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=";
+
+
+    public GroupApiImpl(WeChatApp app) {
+        super(app);
+    }
 
     /**
      * 创建分组

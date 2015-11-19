@@ -1,6 +1,7 @@
 package com.fengyunhe.wechat.mp.api;
 
 import com.fengyunhe.wechat.mp.*;
+import com.fengyunhe.wechat.mp.api.bean.Customer;
 import com.fengyunhe.wechat.mp.api.impl.*;
 import com.fengyunhe.wechat.mp.api.util.MessageUtil;
 import com.fengyunhe.wechat.mp.msg.SyncMessage;
@@ -34,16 +35,22 @@ public class WeChat {
     private JsApi jsApi;
     private CardApi cardApi;
     private ShopApi shopApi;
+    private CustomerApi customerApi;
+    private TemplateMsgApi templateMsgApi;
+    private MediaApi mediaApi;
 
     public WeChat(WeChatApp app) {
         this.app = app;
-        this.groupApi = new GroupApiImpl();
-        this.menuApi = new MenuApiImpl();
-        this.messageApi = new MessageApiImpl();
+        this.groupApi = new GroupApiImpl(app);
+        this.menuApi = new MenuApiImpl(app);
+        this.mediaApi = new MediaApiImpl(app);
+        this.messageApi = new MessageApiImpl(app);
         this.serverApi = new ServerApiImpl(app);
         this.userApi = new UserApiImpl(app);
         this.jsApi = new JsApiImpl(app);
         this.payApi = new PayApiImpl(app);
+        this.customerApi = new CustomerApiImpl(app);
+        this.templateMsgApi = new TemplateMsgApiImpl(app);
     }
 
     public PayApi getPayApi() {
@@ -168,6 +175,10 @@ public class WeChat {
                             (MassSendJobFinshEvent) message);
                 }
 
+//              模板消息回调
+                else if (eventType.equals(EventType.TEMPLATESENDJOBFINISH.name())) {
+                    getEventHandler().handleTemplateMsgResult((TemplateMsgResultEvent) message);
+                }
                 // 自定义菜单点击事件
                 else if (eventType.equals(EventType.CLICK.name())) {
                     AbstractRespMessage handleMenuClick = getEventHandler()
@@ -239,4 +250,11 @@ public class WeChat {
         return jsApi;
     }
 
+    public CustomerApi getCustomerApi() {
+        return customerApi;
+    }
+
+    public TemplateMsgApi getTemplateMsgApi() {
+        return templateMsgApi;
+    }
 }

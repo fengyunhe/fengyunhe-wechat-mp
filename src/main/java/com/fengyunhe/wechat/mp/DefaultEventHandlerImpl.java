@@ -101,6 +101,11 @@ public class DefaultEventHandlerImpl implements EventHandler
     }
 
     @Override
+    public void handleTemplateMsgResult(TemplateMsgResultEvent message) {
+
+    }
+
+    @Override
     public void handleMassSendJobFinsh(MassSendJobFinshEvent event)
     {
 

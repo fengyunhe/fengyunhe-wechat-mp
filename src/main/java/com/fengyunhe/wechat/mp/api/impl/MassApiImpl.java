@@ -290,7 +290,7 @@ public class MassApiImpl extends ServerApiImpl implements MassApi {
     @Override
     public boolean delete(String accessToken, String msgId) {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put("msg_id", "msgId");
+        json.put("msg_id", msgId);
         String post = JsonObjectUtils.beanToJson(json);
         String result = null;
         try {

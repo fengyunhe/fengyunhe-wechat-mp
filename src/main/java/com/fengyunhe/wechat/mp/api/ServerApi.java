@@ -35,43 +35,9 @@ public interface ServerApi {
      */
     String getAccessTokenString();
 
-    /**
-     * 下载媒体文件
-     *
-     * @param accessToken
-     * @param mediaId
-     * @return
-     */
-    Attachment getMedia(String accessToken, String mediaId);
-
-    /**
-     * 上传媒体文件
-     *
-     * @param accessToken
-     * @param type
-     * @param file
-     * @return
-     */
-    MediaInfo uploadMedia(String accessToken, MediaType type, File file);
 
 
-    /**
-     * 上传图片到微信服务器
-     *
-     * @param accessToken
-     * @param file
-     * @return 返回微信服务器的图片url
-     */
-    String uploadImg(String accessToken, File file);
 
-    /**
-     * 上传图文素材
-     *
-     * @param accessToken
-     * @param articleList
-     * @return
-     */
-    MediaInfo uploadNews(String accessToken, List<Article> articleList);
 
     /**
      * 获取临时二维码兑换码

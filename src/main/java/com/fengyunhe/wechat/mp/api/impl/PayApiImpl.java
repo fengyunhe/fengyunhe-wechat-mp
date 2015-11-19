@@ -18,15 +18,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class PayApiImpl implements PayApi {
+public class PayApiImpl extends ServerApiImpl implements PayApi {
 
     Log log = LogFactory.getLog(PayApiImpl.class);
     //    带有微信支付证书的http请求使用这个来操作
     HttpClientHelper httpClientHelper = null;
-    private WeChatApp app;
 
     public PayApiImpl(WeChatApp app) {
-        this.app = app;
+        super(app);
         if (app.getCertPath() != null && app.getCertPassword() != null) {
             httpClientHelper = new HttpClientHelper("PKCS12", app.getCertPath(), app.getCertPassword());
         }

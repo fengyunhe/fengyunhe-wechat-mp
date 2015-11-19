@@ -119,4 +119,6 @@ public interface EventHandler
      * @return
      */
     public AbstractRespMessage handleLocationSelectEvent(LocationSelectEvent event);
+
+    public void handleTemplateMsgResult(TemplateMsgResultEvent message);
 }

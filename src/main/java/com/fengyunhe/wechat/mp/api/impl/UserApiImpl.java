@@ -11,6 +11,7 @@ import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
 import com.fengyunhe.wechat.mp.api.util.JsonObjectUtils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.sun.security.ntlm.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,14 +25,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.*;
 
-public class UserApiImpl implements UserApi {
+public class UserApiImpl extends ServerApiImpl implements UserApi {
 
     Log log = LogFactory.getLog(UserApiImpl.class);
-    private final WeChatApp app;
 
 
     public UserApiImpl(WeChatApp app) {
-        this.app = app;
+        super(app);
     }
 
     private static final java.lang.String OAUTH2_USER_INFO_URI = "https://api.weixin.qq.com/sns/userinfo?lang=zh_CN";

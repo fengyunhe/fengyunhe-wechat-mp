@@ -1,6 +1,7 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
 import com.fengyunhe.wechat.mp.ErrorCode;
+import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.MessageApi;
 import com.fengyunhe.wechat.mp.api.bean.*;
 import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
@@ -19,9 +20,13 @@ import java.util.Map;
  * @author L.cm
  * @date 2013-11-5 下午3:32:30
  */
-public class MessageApiImpl implements MessageApi {
+public class MessageApiImpl extends ServerApiImpl implements MessageApi {
 
     private static final String MESSAGE_URL = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=";
+
+    public MessageApiImpl(WeChatApp app) {
+        super(app);
+    }
 
     /**
      * 发送文本客服消息

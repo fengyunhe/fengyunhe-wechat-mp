@@ -24,8 +24,8 @@ import java.util.*;
 public class ServerApiImpl implements ServerApi {
 
 
-    private final WeChatApp app;
-    private ServerAccessToken token;
+    protected final WeChatApp app;
+    private static Map<String, ServerAccessToken> token = new HashMap<String, ServerAccessToken>();
 
     public ServerApiImpl(WeChatApp app) {
         this.app = app;
@@ -34,10 +34,11 @@ public class ServerApiImpl implements ServerApi {
     public static final String GET_SERVER_IP_URL = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=";
     public static final String GET_SHORT_URL = "https://api.weixin.qq.com/cgi-bin/shorturl?access_token=";
     public static final String GET_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";
-    public static final String GET_MEDIA_URL = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=";
-    public static final String UPLOAD_MEDIA_URL = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=";
+
     public static final String GET_QR_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=";
-    public static final String UPLOAD_IMG_URL = "https://file.api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=";
+
+
+
 
     @Override
     public List<String> getServerIpList() {
@@ -66,24 +67,28 @@ public class ServerApiImpl implements ServerApi {
      * @return
      * @throws Exception
      */
-    public synchronized ServerAccessToken getAccessToken() {
+    public ServerAccessToken getAccessToken() {
         if (token == null
-                || token.getExpireOnTime() < System.currentTimeMillis() - 5000) {
-            String jsonStr = null;
-            try {
-                jsonStr = HttpClientHelper.INSTANCE.get(GET_ACCESS_TOKEN_URL.concat("&appid=")
-                        + app.getAppId() + "&secret=" + app.getAppSecret());
-            } catch (IOException e) {
-                e.printStackTrace();
+                || token.get(app.getAppId()) == null || token.get(app.getAppId()).getExpireOnTime() < System.currentTimeMillis() - 5000) {
+            synchronized (app.getAppId()) {
+                String jsonStr = null;
+                try {
+                    jsonStr = HttpClientHelper.INSTANCE.get(GET_ACCESS_TOKEN_URL.concat("&appid=")
+                            + app.getAppId() + "&secret=" + app.getAppSecret());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ErrorCode.check(jsonStr);
+
+                ServerAccessToken t = JsonObjectUtils
+                        .jsonToBean(jsonStr, ServerAccessToken.class);
+                t.setAuthOnTime(System.currentTimeMillis());
+                t.setExpireOnTime(System.currentTimeMillis()
+                        + t.getExpires_in() * 1000);
+                token.put(app.getAppId(), t);
             }
-            ErrorCode.check(jsonStr);
-            token = JsonObjectUtils
-                    .jsonToBean(jsonStr, ServerAccessToken.class);
-            token.setAuthOnTime(System.currentTimeMillis());
-            token.setExpireOnTime(System.currentTimeMillis()
-                    + token.getExpires_in() * 1000);
         }
-        return token;
+        return token.get(app.getAppId());
     }
 
     @Override
@@ -91,63 +96,10 @@ public class ServerApiImpl implements ServerApi {
         return this.getAccessToken().getAccess_token();
     }
 
-    /**
-     * 获取媒体资源
-     *
-     * @param accessToken
-     * @param mediaId
-     * @return
-     * @throws IOException
-     */
-    public Attachment getMedia(String accessToken, String mediaId) {
-        String url = GET_MEDIA_URL + accessToken + "&media_id=" + mediaId;
-        Attachment att = HttpClientHelper.INSTANCE.download(url);
-        return att;
-    }
 
-    /**
-     * 上传素材文件
-     *
-     * @param type
-     * @param file
-     * @return
-     * @throws KeyManagementException
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchProviderException
-     * @throws IOException
-     */
-    public MediaInfo uploadMedia(String accessToken, MediaType type, File file) {
-        String url = UPLOAD_MEDIA_URL + accessToken + "&type=" + type.name();
-        String jsonStr = HttpClientHelper.INSTANCE.upload(url, file);
-        JsonNode jsonNode = ErrorCode.check(jsonStr);
-        return JsonObjectUtils.jsonNodeToBean(jsonNode, MediaInfo.class);
-    }
 
-    @Override
-    public String uploadImg(String accessToken, File file) {
-        String url = UPLOAD_IMG_URL + accessToken;
-        String jsonStr = HttpClientHelper.INSTANCE.upload(url, file);
-        JsonNode jsonNode = ErrorCode.check(jsonStr);
-        return jsonNode.has("url") ? jsonNode
-                .get("url").getTextValue() : null;
-    }
 
-    @Override
-    public MediaInfo uploadNews(String accessToken, List<Article> articleList) {
-        String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token=" + accessToken;
-        Map<String, Object> params = new java.util.HashMap<String, Object>();
-        params.put("articles", articleList);
-        String jsonStr = null;
-        try {
-            jsonStr = com.fengyunhe.wechat.mp.api.util.HttpClientHelper.INSTANCE.post(url, JsonObjectUtils.beanToJson(params));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        JsonNode jsonNode = JsonObjectUtils.stringToJsonNode(jsonStr);
-        ErrorCode.check(jsonNode);
-        return JsonObjectUtils.jsonToBean(jsonStr, MediaInfo.class);
 
-    }
     @Override
     public String getTempQrcodeTicket(String accessToken, long sceneId) {
         String url = GET_QR_TICKET_URL + accessToken;

@@ -3,6 +3,7 @@ package com.fengyunhe.wechat.mp.api.impl;
 import com.fengyunhe.wechat.mp.ErrorCode;
 import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.CardApi;
+import com.fengyunhe.wechat.mp.api.ServerApi;
 import com.fengyunhe.wechat.mp.api.bean.*;
 import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
 import com.fengyunhe.wechat.mp.api.util.JsonObjectUtils;
@@ -18,7 +19,7 @@ import java.util.List;
  * 微信卡券API 实现类
  * Created by yangyan on 2015/6/1.
  */
-public class CardApiImpl implements CardApi {
+public class CardApiImpl extends ServerApiImpl implements CardApi {
 
     public static final String URL_UPLOAD_LOGO = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=";
     public static final String URL_COLOR_LIST = "https://api.weixin.qq.com/card/getcolors?access_token=";
@@ -35,10 +36,8 @@ public class CardApiImpl implements CardApi {
     public static final String URL_MODIFY_STOCK = "https://api.weixin.qq.com/card/modifystock?access_token=";
     public static final String URL_BIND_MEMBER = "https://api.weixin.qq.com/card/membercard/activate?access_token=";
 
-    private final WeChatApp app;
-
     public CardApiImpl(WeChatApp app) {
-        this.app = app;
+        super(app);
     }
 
 

@@ -1,6 +1,7 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
 import com.fengyunhe.wechat.mp.ErrorCode;
+import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.PoiApi;
 import com.fengyunhe.wechat.mp.api.bean.PoiInfo;
 import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
@@ -16,13 +17,18 @@ import java.util.List;
  * 门店管理 POI信息管理接口
  * Created by yangyan on 2015/6/2.
  */
-public class PoiApiImpl implements PoiApi {
+public class PoiApiImpl extends ServerApiImpl implements PoiApi {
 
     public static final String URL_ADD_POI = "http://api.weixin.qq.com/cgi-bin/poi/addpoi?access_token=";
     public static final String URL_UPDATE_POI = "http://api.weixin.qq.com/cgi-bin/poi/updatepoi?access_token=";
     public static final String URL_DEL_POI = "http://api.weixin.qq.com/cgi-bin/poi/delpoi?access_token=";
     public static final String URL_LIST_POI = "http://api.weixin.qq.com/cgi-bin/poi /getpoilist?access_token=";
     public static final String URL_GET_POT = "http://api.weixin.qq.com/cgi-bin/poi/getpoi?access_token=";
+
+
+    public PoiApiImpl(WeChatApp app) {
+        super(app);
+    }
 
     @Override
     public boolean addPoi(String accessToken, PoiInfo poi) {
