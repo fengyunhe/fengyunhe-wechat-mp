@@ -10,8 +10,6 @@ import com.fengyunhe.wechat.mp.api.bean.UserAccessToken;
 import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
 import com.fengyunhe.wechat.mp.api.util.JsonObjectUtils;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.sun.security.ntlm.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
