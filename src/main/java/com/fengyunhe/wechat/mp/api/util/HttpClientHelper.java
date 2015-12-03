@@ -289,10 +289,11 @@ public class HttpClientHelper {
      * @return
      * @throws IOException
      */
-    public HttpResponse post(String url,
+    public String post(String url,
                              String requestBody,
                              Header[] headers) throws IOException {
-        return post(url, requestBody, null, null, headers);
+        HttpResponse httpResponse = post(url, requestBody, null, null, headers);
+        return EntityUtils.toString(httpResponse.getEntity(), Charset.forName("UTF-8"));
     }
 
 
