@@ -275,9 +275,24 @@ public class HttpClientHelper {
      * @throws IOException
      */
     public HttpResponse post(String url,
-                             List<? extends NameValuePair> params,
-                             Header[] headers) throws IOException {
+                              List<? extends NameValuePair> params,
+                              Header[] headers) throws IOException {
         return post(url, params, null, null, headers);
+    }
+
+
+    /**
+     * post 请求
+     * @param url
+     * @param requestBody
+     * @param headers
+     * @return
+     * @throws IOException
+     */
+    public HttpResponse post(String url,
+                             String requestBody,
+                             Header[] headers) throws IOException {
+        return post(url, requestBody, null, null, headers);
     }
 
 
@@ -326,7 +341,25 @@ public class HttpClientHelper {
         return post(url, null);
     }
 
-
+    public HttpResponse post(String url,
+                             String requestBody,
+                             String charset, CookieStore cookies, Header[] headers) throws IOException {
+        HttpResponse resp = null;
+        HttpPost post = new HttpPost(url);
+        post.setEntity(new StringEntity(
+                requestBody, charset == null ? "UTF-8" : charset));
+        post.setHeaders(headers);
+        // post.setHeader("User-Agent", AGENT_FIREFOX);
+        HttpClient client = getClient();
+        if (cookies != null) {
+            HttpClientContext context = HttpClientContext.create();
+            context.setCookieStore(cookies);
+            resp = client.execute(post, context);
+        } else {
+            resp = client.execute(post);
+        }
+        return resp;
+    }
     /**
      * POST请求
      *
@@ -386,6 +419,13 @@ public class HttpClientHelper {
     }
 
 
+    /**
+     * 上传单个文件
+     * @param url
+     * @param file
+     * @param headers
+     * @return
+     */
     public String upload(String url, File file, Header[] headers) {
         HashMap<String, File> stringFileHashMap = new HashMap<String, File>();
         stringFileHashMap.put(file.getName(), file);
@@ -398,6 +438,14 @@ public class HttpClientHelper {
         return null;
     }
 
+    /**
+     * 上传文件
+     * @param url
+     * @param params
+     * @param name
+     * @param file
+     * @return
+     */
     public String upload(String url, Map<String, String> params, String name, File file) {
         HashMap<String, File> stringFileHashMap = new HashMap<String, File>();
         stringFileHashMap.put(name == null ? file.getName() : name, file);
