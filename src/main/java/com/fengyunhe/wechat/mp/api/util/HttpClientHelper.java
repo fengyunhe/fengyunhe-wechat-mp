@@ -385,7 +385,20 @@ public class HttpClientHelper {
         return upload(url, null, name, file);
     }
 
-    public String upload(String url, Map<String, String> params,String name, File file) {
+
+    public String upload(String url, File file, Header[] headers) {
+        HashMap<String, File> stringFileHashMap = new HashMap<String, File>();
+        stringFileHashMap.put(file.getName(), file);
+        try {
+            HttpResponse httpResponse = this.post(url, null, null, null, headers, stringFileHashMap);
+            return EntityUtils.toString(httpResponse.getEntity(), Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String upload(String url, Map<String, String> params, String name, File file) {
         HashMap<String, File> stringFileHashMap = new HashMap<String, File>();
         stringFileHashMap.put(name == null ? file.getName() : name, file);
         try {
