@@ -1,24 +1,16 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
 import com.fengyunhe.wechat.mp.ErrorCode;
-import com.fengyunhe.wechat.mp.MediaType;
 import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.ServerApi;
-import com.fengyunhe.wechat.mp.api.bean.Article;
-import com.fengyunhe.wechat.mp.api.bean.Attachment;
-import com.fengyunhe.wechat.mp.api.bean.MediaInfo;
 import com.fengyunhe.wechat.mp.api.bean.ServerAccessToken;
-import com.fengyunhe.utils.HttpClientHelper;
+import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
 import com.fengyunhe.wechat.mp.api.util.JsonObjectUtils;
 import org.codehaus.jackson.JsonNode;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.*;
 
 public class ServerApiImpl implements ServerApi {
@@ -38,13 +30,11 @@ public class ServerApiImpl implements ServerApi {
     public static final String GET_QR_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=";
 
 
-
-
     @Override
     public List<String> getServerIpList() {
 
         try {
-            String jsonStr = com.fengyunhe.utils.HttpClientHelper.INSTANCE.get(GET_SERVER_IP_URL + getAccessToken().getAccess_token());
+            String jsonStr = HttpClientHelper.INSTANCE.get(GET_SERVER_IP_URL + getAccessToken().getAccess_token());
             JsonNode jsonNode = ErrorCode.check(jsonStr);
             if (jsonNode.has("ip_list")) {
                 List<String> ipList = new ArrayList<String>();
@@ -95,9 +85,6 @@ public class ServerApiImpl implements ServerApi {
     public String getAccessTokenString() {
         return this.getAccessToken().getAccess_token();
     }
-
-
-
 
 
     @Override

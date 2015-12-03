@@ -1,6 +1,5 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
-import com.fengyunhe.utils.HttpClientHelper;
 import com.fengyunhe.wechat.mp.ErrorCode;
 import com.fengyunhe.wechat.mp.MediaType;
 import com.fengyunhe.wechat.mp.WeChatApp;
@@ -8,6 +7,7 @@ import com.fengyunhe.wechat.mp.api.MediaApi;
 import com.fengyunhe.wechat.mp.api.bean.Article;
 import com.fengyunhe.wechat.mp.api.bean.Attachment;
 import com.fengyunhe.wechat.mp.api.bean.MediaInfo;
+import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
 import com.fengyunhe.wechat.mp.api.util.JsonObjectUtils;
 import com.google.common.collect.ImmutableMap;
 import org.codehaus.jackson.JsonNode;
@@ -39,6 +39,7 @@ public class MediaApiImpl extends ServerApiImpl implements MediaApi {
     public static final String GET_MATERIAL_URL = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=";
     public static final String DEL_MATERIAL_URL = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=";
     public static final String GET_MATERIAL_COUNT_URL = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=";
+
     /**
      * 获取媒体资源
      *

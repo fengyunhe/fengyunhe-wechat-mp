@@ -1,6 +1,6 @@
 package com.fengyunhe.wechat.mp.api.impl;
 
-import com.fengyunhe.utils.HttpClientHelper;
+import com.fengyunhe.wechat.mp.api.util.HttpClientHelper;
 import com.fengyunhe.wechat.mp.ErrorCode;
 import com.fengyunhe.wechat.mp.WeChatApp;
 import com.fengyunhe.wechat.mp.api.TemplateMsgApi;

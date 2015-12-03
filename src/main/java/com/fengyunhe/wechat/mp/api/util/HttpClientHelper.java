@@ -382,10 +382,14 @@ public class HttpClientHelper {
      * @return
      */
     public String upload(String url, String name, File file) {
+        return upload(url, null, name, file);
+    }
+
+    public String upload(String url, Map<String, String> params,String name, File file) {
         HashMap<String, File> stringFileHashMap = new HashMap<String, File>();
         stringFileHashMap.put(name == null ? file.getName() : name, file);
         try {
-            HttpResponse httpResponse = this.post(url, null, null, null, null, stringFileHashMap);
+            HttpResponse httpResponse = this.post(url, params, null, null, null, stringFileHashMap);
             return EntityUtils.toString(httpResponse.getEntity(), Charset.forName("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
