@@ -151,39 +151,39 @@
     </build>
 
 
-    <repositories>
-        <!-- MAVEN中央仓库本地代理-->
-        <repository>
-            <id>central</id>
-            <url>http://nexus:8081/nexus/content/repositories/central/</url>
-        </repository>
-        <!-- 本地稳定版本构件库-->
-        <repository>
-            <id>releases</id>
-            <name>releases</name>
-            <url>http://nexus:8081/nexus/content/repositories/releases/</url>
-        </repository>
-        <!-- 本地临时版本构件库-->
-        <repository>
-            <id>snapshots</id>
-            <name>snapshots</name>
-            <url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+        <!--&lt;!&ndash; MAVEN中央仓库本地代理&ndash;&gt;-->
+        <!--<repository>-->
+            <!--<id>central</id>-->
+            <!--<url>http://nexus:8081/nexus/content/repositories/central/</url>-->
+        <!--</repository>-->
+        <!--&lt;!&ndash; 本地稳定版本构件库&ndash;&gt;-->
+        <!--<repository>-->
+            <!--<id>releases</id>-->
+            <!--<name>releases</name>-->
+            <!--<url>http://nexus:8081/nexus/content/repositories/releases/</url>-->
+        <!--</repository>-->
+        <!--&lt;!&ndash; 本地临时版本构件库&ndash;&gt;-->
+        <!--<repository>-->
+            <!--<id>snapshots</id>-->
+            <!--<name>snapshots</name>-->
+            <!--<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
 
-    <!-- 发布到本地镜像仓库 -->
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>releases</name>
-            <url>http://nexus:8081/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>snapshots</name>
-            <url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!--&lt;!&ndash; 发布到本地镜像仓库 &ndash;&gt;-->
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>releases</id>-->
+            <!--<name>releases</name>-->
+            <!--<url>http://nexus:8081/nexus/content/repositories/releases/</url>-->
+        <!--</repository>-->
+        <!--<snapshotRepository>-->
+            <!--<id>snapshots</id>-->
+            <!--<name>snapshots</name>-->
+            <!--<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>-->
+        <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
 
 </project>
