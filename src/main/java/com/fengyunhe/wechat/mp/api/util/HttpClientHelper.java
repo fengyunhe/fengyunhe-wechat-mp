@@ -4,6 +4,7 @@ import com.fengyunhe.wechat.mp.api.bean.Attachment;
 import org.apache.http.*;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -77,11 +78,14 @@ public class HttpClientHelper {
                 .register("https", sslsf)
                 .build();
         poolingHttpClientConnectionManager = new PoolingHttpClientConnectionManager(registry);
-        poolingHttpClientConnectionManager.setDefaultMaxPerRoute(300);
-        poolingHttpClientConnectionManager.setMaxTotal(100);
+        poolingHttpClientConnectionManager.setDefaultMaxPerRoute(3000);
+        poolingHttpClientConnectionManager.setMaxTotal(1000);
+
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                 .setConnectionManager(poolingHttpClientConnectionManager)
+                .setDefaultRequestConfig(RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(2000).setConnectionRequestTimeout(5000).build())
                 .disableAutomaticRetries();
+
         httpClientBuilder.setSSLSocketFactory(this.sslsf);
 
         client = httpClientBuilder.build();
@@ -118,6 +122,7 @@ public class HttpClientHelper {
             poolingHttpClientConnectionManager = new PoolingHttpClientConnectionManager(registry);
             HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                     .setConnectionManager(poolingHttpClientConnectionManager)
+                    .setDefaultRequestConfig(RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(2000).setConnectionRequestTimeout(5000).build())
                     .disableAutomaticRetries();
             httpClientBuilder.setSSLSocketFactory(this.sslsf);
             client = httpClientBuilder.build();
@@ -261,7 +266,6 @@ public class HttpClientHelper {
             resp = client.execute(get);
         }
 
-
         return resp;
     }
 
@@ -275,14 +279,15 @@ public class HttpClientHelper {
      * @throws IOException
      */
     public HttpResponse post(String url,
-                              List<? extends NameValuePair> params,
-                              Header[] headers) throws IOException {
+                             List<? extends NameValuePair> params,
+                             Header[] headers) throws IOException {
         return post(url, params, null, null, headers);
     }
 
 
     /**
      * post 请求
+     *
      * @param url
      * @param requestBody
      * @param headers
@@ -290,8 +295,8 @@ public class HttpClientHelper {
      * @throws IOException
      */
     public String post(String url,
-                             String requestBody,
-                             Header[] headers) throws IOException {
+                       String requestBody,
+                       Header[] headers) throws IOException {
         HttpResponse httpResponse = post(url, requestBody, null, null, headers);
         return EntityUtils.toString(httpResponse.getEntity(), Charset.forName("UTF-8"));
     }
@@ -361,6 +366,7 @@ public class HttpClientHelper {
         }
         return resp;
     }
+
     /**
      * POST请求
      *
@@ -422,6 +428,7 @@ public class HttpClientHelper {
 
     /**
      * 上传单个文件
+     *
      * @param url
      * @param file
      * @param headers
@@ -441,6 +448,7 @@ public class HttpClientHelper {
 
     /**
      * 上传文件
+     *
      * @param url
      * @param params
      * @param name
