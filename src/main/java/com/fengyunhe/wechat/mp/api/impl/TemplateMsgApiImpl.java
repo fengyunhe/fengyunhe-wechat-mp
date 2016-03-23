@@ -67,7 +67,7 @@ public class TemplateMsgApiImpl extends ServerApiImpl implements TemplateMsgApi 
                 "data", dataMap
         ));
         try {
-            String jsonStr = HttpClientHelper.INSTANCE.post(GET_TEMPLATE_ID_URL + getAccessTokenString(), json);
+            String jsonStr = HttpClientHelper.INSTANCE.post(SEND_URL + getAccessTokenString(), json);
             JsonNode check = ErrorCode.check(jsonStr);
             if (check.has("msgid")) {
                 return check.get("msgid").asText();
