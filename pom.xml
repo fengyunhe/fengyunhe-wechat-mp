@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fengyunhe</groupId>
     <artifactId>fengyunhe-wechat-mp</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>微信公众号SDK</description>
     <properties>
@@ -173,17 +173,17 @@
 
 
     <!--&lt;!&ndash; 发布到本地镜像仓库 &ndash;&gt;-->
-    <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>releases</id>-->
-            <!--<name>releases</name>-->
-            <!--<url>http://nexus:8081/nexus/content/repositories/releases/</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>snapshots</id>-->
-            <!--<name>snapshots</name>-->
-            <!--<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>-->
-        <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>releases</name>
+            <url>http://nexus:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>snapshots</name>
+            <url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
