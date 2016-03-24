@@ -28,7 +28,7 @@ public class ErrorCode {
         if (errcode == 0) {
             return json;
         }
-        throw new RuntimeException(resourceBundle.getString("code_" + errcode));
+        throw new RuntimeException(resourceBundle.containsKey("code_" + errcode)?resourceBundle.getString("code_" + errcode):"错误：" + errcode);
     }
 
     public static JsonNode checkJsApiTicketJson(String jsonStr) {
@@ -54,7 +54,7 @@ public class ErrorCode {
             if (errcode == 0 && "ok".equals(errmsg) && expires_in > -1 && StringUtils.isNotBlank(ticket)) {
                 return json;
             } else {
-                throw new WechatApiException(resourceBundle.getString("code_" + errcode));
+                throw new RuntimeException(resourceBundle.containsKey("code_" + errcode)?resourceBundle.getString("code_" + errcode):"错误：" + errcode);
             }
         }
     }
