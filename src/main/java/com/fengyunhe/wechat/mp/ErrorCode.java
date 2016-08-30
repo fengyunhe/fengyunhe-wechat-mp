@@ -21,6 +21,9 @@ public class ErrorCode {
     }
 
     public static JsonNode check(JsonNode json) {
+        if (json == null) {
+            return JsonObjectUtils.stringToJsonNode("{}");
+        }
         if (!json.has("errcode")) {
             return json;
         }
