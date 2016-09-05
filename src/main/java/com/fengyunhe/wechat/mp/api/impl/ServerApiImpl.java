@@ -12,12 +12,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerApiImpl implements ServerApi {
 
 
     protected final WeChatApp app;
-    private static Map<String, ServerAccessToken> token = new HashMap<String, ServerAccessToken>();
+    private static Map<String, ServerAccessToken> token = new ConcurrentHashMap<String, ServerAccessToken>();
 
     public ServerApiImpl(WeChatApp app) {
         this.app = app;
@@ -60,22 +61,24 @@ public class ServerApiImpl implements ServerApi {
     public ServerAccessToken getAccessToken() {
         if (token == null
                 || token.get(app.getAppId()) == null || token.get(app.getAppId()).getExpireOnTime() < System.currentTimeMillis() - 5000) {
-            synchronized (app.getAppId()) {
+            synchronized (token) {
                 String jsonStr = null;
                 try {
-                    jsonStr = HttpClientHelper.INSTANCE.get(GET_ACCESS_TOKEN_URL.concat("&appid=")
-                            + app.getAppId() + "&secret=" + app.getAppSecret());
+                    StringBuffer sb = new StringBuffer(GET_ACCESS_TOKEN_URL);
+                    jsonStr = HttpClientHelper.INSTANCE.get(sb.append("&appid=")
+                            .append(app.getAppId()).append("&secret=").append(app.getAppSecret()).toString());
+                    ErrorCode.check(jsonStr);
+
+                    ServerAccessToken t = JsonObjectUtils
+                            .jsonToBean(jsonStr, ServerAccessToken.class);
+                    t.setAuthOnTime(System.currentTimeMillis());
+                    t.setExpireOnTime(System.currentTimeMillis()
+                            + t.getExpires_in() * 1000);
+                    token.put(app.getAppId(), t);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ErrorCode.check(jsonStr);
-
-                ServerAccessToken t = JsonObjectUtils
-                        .jsonToBean(jsonStr, ServerAccessToken.class);
-                t.setAuthOnTime(System.currentTimeMillis());
-                t.setExpireOnTime(System.currentTimeMillis()
-                        + t.getExpires_in() * 1000);
-                token.put(app.getAppId(), t);
             }
         }
         return token.get(app.getAppId());
