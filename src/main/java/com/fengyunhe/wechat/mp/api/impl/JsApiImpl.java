@@ -9,6 +9,7 @@ import com.fengyunhe.wechat.mp.api.util.JsonObjectUtils;
 import com.fengyunhe.wechat.mp.api.util.Tools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonNode;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -54,14 +55,22 @@ public class JsApiImpl extends ServerApiImpl implements JsApi {
     @Override
     public synchronized ServerJsApiTicket getJsapi_ticket(String accessToken) {
         if (serverJsApiTicket == null
-                || serverJsApiTicket.getExpireOnTime() < System.currentTimeMillis() - 5000) {
+                || serverJsApiTicket.getExpireOnTime() < System.currentTimeMillis() - 30000) {
             String jsonStr = null;
-            try {
-                jsonStr = HttpClientHelper.INSTANCE.get(JSAPI_TICKET_GET_URI.replace("ACCESS_TOKEN", accessToken));
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            while(jsonStr==null) {
+                try {
+                    jsonStr = HttpClientHelper.INSTANCE.get(JSAPI_TICKET_GET_URI.replace("ACCESS_TOKEN", accessToken));
+                    JsonNode node = ErrorCode.checkJsApiTicketJson(jsonStr);
+                    if (42001 == node.get("errcode").getIntValue()) {
+                        accessToken = this.getAccessToken().getAccess_token();
+                        jsonStr = null;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            ErrorCode.checkJsApiTicketJson(jsonStr);
+
             serverJsApiTicket = JsonObjectUtils.jsonToBean(jsonStr, ServerJsApiTicket.class);
             serverJsApiTicket.setAuthOnTime(System.currentTimeMillis());
             serverJsApiTicket.setExpireOnTime(System.currentTimeMillis() + serverJsApiTicket.getExpires_in() * 1000);

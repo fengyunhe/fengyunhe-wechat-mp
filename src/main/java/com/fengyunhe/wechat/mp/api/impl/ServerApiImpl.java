@@ -12,13 +12,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerApiImpl implements ServerApi {
 
 
     protected final WeChatApp app;
-    private static Map<String, ServerAccessToken> token = new ConcurrentHashMap<String, ServerAccessToken>();
+    private static Map<String, ServerAccessToken> token = new HashMap<String, ServerAccessToken>();
 
     public ServerApiImpl(WeChatApp app) {
         this.app = app;
@@ -60,7 +59,7 @@ public class ServerApiImpl implements ServerApi {
      */
     public ServerAccessToken getAccessToken() {
         if (token == null
-                || token.get(app.getAppId()) == null || token.get(app.getAppId()).getExpireOnTime() < System.currentTimeMillis() - 5000) {
+                || token.get(app.getAppId()) == null || token.get(app.getAppId()).getExpireOnTime() < System.currentTimeMillis() - 30000) {
             synchronized (token) {
                 String jsonStr = null;
                 try {

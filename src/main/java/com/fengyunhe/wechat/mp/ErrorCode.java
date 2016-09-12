@@ -57,6 +57,9 @@ public class ErrorCode {
             if (errcode == 0 && "ok".equals(errmsg) && expires_in > -1 && StringUtils.isNotBlank(ticket)) {
                 return json;
             } else {
+                if (errcode == 42001) { //access_token超时
+                    return json;
+                }
                 throw new RuntimeException(resourceBundle.containsKey("code_" + errcode)?resourceBundle.getString("code_" + errcode):"错误：" + errcode);
             }
         }
