@@ -30,7 +30,7 @@ public class JsApiImpl extends ServerApiImpl implements JsApi {
      */
     private static final String JSAPI_TICKET_GET_URI = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
     Log log = LogFactory.getLog(UserApiImpl.class);
-    private ServerJsApiTicket serverJsApiTicket;
+    private static ServerJsApiTicket serverJsApiTicket;
 
     public JsApiImpl(WeChatApp app) {
         super(app);
