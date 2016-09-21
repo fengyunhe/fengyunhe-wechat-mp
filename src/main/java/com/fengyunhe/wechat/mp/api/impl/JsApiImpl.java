@@ -67,7 +67,7 @@ public class JsApiImpl extends ServerApiImpl implements JsApi {
                         jsonStr = null;
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("访问微信服务器接口网络异常");
                 }
             }
 
