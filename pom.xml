@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fengyunhe</groupId>
     <artifactId>fengyunhe-wechat-mp</artifactId>
-    <version>1.2.4-SNAPSHOT</version>
+    <version>1.2.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>微信公众号SDK</description>
     <properties>
