@@ -80,6 +80,10 @@ public class WeChat {
         this.eventHandler = eventHandler;
     }
 
+    public WeChatApp getApp() {
+        return app;
+    }
+
     /**
      * 根据接收到用户消息进行处理
      *
