@@ -23,12 +23,13 @@
             <version>1.2</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.11</version>
+            <version>1.9.13</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -164,38 +165,33 @@
 
 
     <!--<repositories>-->
-        <!--&lt;!&ndash; MAVEN中央仓库本地代理&ndash;&gt;-->
-        <!--<repository>-->
-            <!--<id>central</id>-->
-            <!--<url>http://nexus:8081/nexus/content/repositories/central/</url>-->
-        <!--</repository>-->
-        <!--&lt;!&ndash; 本地稳定版本构件库&ndash;&gt;-->
-        <!--<repository>-->
-            <!--<id>releases</id>-->
-            <!--<name>releases</name>-->
-            <!--<url>http://nexus:8081/nexus/content/repositories/releases/</url>-->
-        <!--</repository>-->
-        <!--&lt;!&ndash; 本地临时版本构件库&ndash;&gt;-->
-        <!--<repository>-->
-            <!--<id>snapshots</id>-->
-            <!--<name>snapshots</name>-->
-            <!--<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>-->
-        <!--</repository>-->
+    <!--&lt;!&ndash; MAVEN中央仓库本地代理&ndash;&gt;-->
+    <!--<repository>-->
+    <!--<id>central</id>-->
+    <!--<url>http://nexus:8081/nexus/content/repositories/central/</url>-->
+    <!--</repository>-->
+    <!--&lt;!&ndash; 本地稳定版本构件库&ndash;&gt;-->
+    <!--<repository>-->
+    <!--<id>releases</id>-->
+    <!--<name>releases</name>-->
+    <!--<url>http://nexus:8081/nexus/content/repositories/releases/</url>-->
+    <!--</repository>-->
+    <!--&lt;!&ndash; 本地临时版本构件库&ndash;&gt;-->
+    <!--<repository>-->
+    <!--<id>snapshots</id>-->
+    <!--<name>snapshots</name>-->
+    <!--<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>-->
+    <!--</repository>-->
     <!--</repositories>-->
-
 
     <!--&lt;!&ndash; 发布到本地镜像仓库 &ndash;&gt;-->
     <distributionManagement>
         <repository>
-            <id>releases</id>
-            <name>releases</name>
-            <url>http://nexus:8081/nexus/content/repositories/releases/</url>
+            <id>rdc-releases</id>
         </repository>
         <snapshotRepository>
-            <id>snapshots</id>
-            <name>snapshots</name>
-            <url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/44225-snapshot-dgqZ2e/</url>
         </snapshotRepository>
     </distributionManagement>
-
 </project>
